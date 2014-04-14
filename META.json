@@ -1,0 +1,85 @@
+{
+   "abstract" : "API support for Amazon DynamoDB",
+   "author" : [
+      "Rusty Conover <rusty@luckydinosaur.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 5.015, CPAN::Meta::Converter version 2.140640",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Amazon-DynamoDB",
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::Pod" : "1.41"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "B" : "0",
+            "Digest::HMAC" : "0",
+            "Digest::SHA" : "0",
+            "Future" : "0",
+            "Future::Utils" : "0",
+            "HTTP::Date" : "0",
+            "HTTP::Request" : "0",
+            "HTTP::StreamParser::Request" : "0",
+            "IO::Async::Timer::Countdown" : "0",
+            "JSON::XS" : "0",
+            "LWP::UserAgent" : "0",
+            "List::MoreUtils" : "0",
+            "List::Util" : "0",
+            "List::UtilsBy" : "0",
+            "MIME::Base64" : "0",
+            "Module::Load" : "0",
+            "Mojo::UserAgent" : "0",
+            "Net::Async::HTTP" : "0.30",
+            "POSIX" : "0",
+            "URI" : "0",
+            "URI::Escape" : "0",
+            "URI::QueryParam" : "0",
+            "strict" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Data::Dumper" : "0",
+            "File::Slurp" : "0",
+            "IO::Async::Loop" : "0",
+            "IO::Async::SSL" : "0",
+            "String::Random" : "0",
+            "Test::CheckDeps" : "0.010",
+            "Test::Differences" : "0",
+            "Test::More" : "0.94",
+            "Test::Most" : "0",
+            "lib" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "mailto" : "bug-amazon-dynamodb at rt.cpan.org",
+         "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=Amazon-DynamoDB"
+      },
+      "homepage" : "http://search.cpan.org/dist/Amazon-DynamoDB/",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/rustyconover/Amazon-DynamoDB.git",
+         "web" : "https://github.com/rustyconover/Amazon-DynamoDB"
+      }
+   },
+   "version" : "0.002"
+}
+

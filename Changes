@@ -1,0 +1,6 @@
+2014-04-14  Rusty Conover  <rusty@luckydinosaur.com>
+
+	* Commit changes for Amazon::DynamoDB based on
+	WebService::Amazon::DynamoDB, but a more complete and importantly
+	tested implementation.
+
