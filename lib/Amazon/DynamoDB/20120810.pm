@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.002';
+$Amazon::DynamoDB::20120810::VERSION = '0.003';
 use strict;
 use warnings;
 
@@ -9,7 +9,7 @@ Amazon::DynamoDB::20120810 - interact with DynamoDB using API version 20120810
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 DESCRIPTION
 
@@ -265,7 +265,6 @@ Waits for the given table to be marked as active.
 =item * WaitInterval - default wait interval in seconds.
  
 =item * DesiredStatus - status to expect before completing.  Defaults to ACTIVE
-
 
   $ddb->wait_for_table_status(TableName => $table_name);
 
@@ -970,8 +969,7 @@ sub _scan_or_query_process {
                 
                 $records_seen += $data->{Count};
                 
-                if ((defined($args->{Limit}) && $records_seen == $args->{Limit}) ||
-                        !defined($payload->{ExclusiveStartKey})) {
+                if (!defined($payload->{ExclusiveStartKey})) {
                     $finished = 1;
                 }
                 return $data;

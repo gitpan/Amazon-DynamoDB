@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::LWP;
-$Amazon::DynamoDB::LWP::VERSION = '0.002';
+$Amazon::DynamoDB::LWP::VERSION = '0.003';
 use strict;
 use warnings;
 
@@ -9,7 +9,7 @@ Amazon::DynamoDB::LWP - make requests using L<LWP::UserAgent>
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 DESCRIPTION
 
