@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::NaHTTP;
-$Amazon::DynamoDB::NaHTTP::VERSION = '0.003';
+$Amazon::DynamoDB::NaHTTP::VERSION = '0.004';
 use strict;
 use warnings;
 
@@ -9,7 +9,7 @@ Amazon::DynamoDB::NaHTTP - make requests using L<Net::Async::HTTP>
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 

@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::MojoUA;
-$Amazon::DynamoDB::MojoUA::VERSION = '0.003';
+$Amazon::DynamoDB::MojoUA::VERSION = '0.004';
 use strict;
 use warnings;
 
@@ -9,7 +9,7 @@ Amazon::DynamoDB::MojoUA - make requests using L<Mojo::UserAgent>
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 

@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.003';
+$Amazon::DynamoDB::20120810::VERSION = '0.004';
 use strict;
 use warnings;
 
@@ -9,7 +9,7 @@ Amazon::DynamoDB::20120810 - interact with DynamoDB using API version 20120810
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 
@@ -564,14 +564,17 @@ sub batch_write_item {
                 die("Cannot have DeleteRequest and PutRequest operations on the same table");
             }
 
-            if (defined($item->{DeleteRequest})) {
-                foreach my $k (keys %{$item->{DeleteRequest}}) {
-                    $r->{DeleteRequest}->{Key}->{$k} = { _encode_type_and_value($item->{DeleteRequest}->{$k}) };
-                }
+            if (!(defined($item->{DeleteRequest}) || defined($item->{PutRequest}))) {
+                die("Must have either a DeleteRequest or PutRequest: " . Data::Dumper->Dump([$item]));
             }
-            if (defined($item->{PutRequest})) {
-                foreach my $k (keys %{$item->{PutRequest}}) {
-                    $r->{PutRequest}->{Item}->{$k} = { _encode_type_and_value($item->{PutRequest}->{$k}) };
+
+            foreach my $t (['DeleteRequest', 'Key'], ['PutRequest', 'Item']) {
+                if (defined($item->{$t->[0]})) {
+                    my $key = $item->{$t->[0]}->{$t->[1]};
+                    defined($key) || Carp::confess("No $t->[1] defined for $t->[0]");
+                    foreach my $k (keys %$key) {
+                        $r->{$t->[0]}->{$t->[1]}->{$k} = { _encode_type_and_value($key->{$k}) };
+                    }
                 }
             }
             if (defined($r)) {
@@ -1149,7 +1152,10 @@ my $encode_key = sub {
     my $r;
     foreach my $k (keys %$source) {
         my $v = $source->{$k};	
-        $r->{$k} = { _encode_type_and_value($v) };
+        # There is no sense in encoding undefined values.
+        if (defined($v)) {
+            $r->{$k} = { _encode_type_and_value($v) };
+        }
     }
     return $r;
 };
@@ -1190,7 +1196,7 @@ my $parameter_type_definitions = {
                 my $info = $source->{$key};
 
                 if (defined($info->{Exists})) {
-                    $r->{$key}->{Exists} = ($info->{Exists} ? 'true' : 'false');
+                    $r->{$key}->{Exists} = $info->{Exists};
                 }
                 
                 if (defined($info->{Value})) {

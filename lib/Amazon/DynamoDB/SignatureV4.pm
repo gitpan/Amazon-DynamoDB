@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::SignatureV4;
-$Amazon::DynamoDB::SignatureV4::VERSION = '0.003';
+$Amazon::DynamoDB::SignatureV4::VERSION = '0.004';
 use strict;
 use warnings;
 
@@ -9,7 +9,7 @@ Amazon::DynamoDB::SignatureV4 - support for v4 of the Amazon signing method
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 

@@ -4,7 +4,7 @@ package Amazon::DynamoDB;
 use strict;
 use warnings;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Amazon::DynamoDB - support for the AWS DynamoDB API
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 

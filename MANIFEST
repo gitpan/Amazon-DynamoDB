@@ -16,7 +16,6 @@ lib/Amazon/DynamoDB/MojoUA.pm
 lib/Amazon/DynamoDB/NaHTTP.pm
 lib/Amazon/DynamoDB/SignatureV4.pm
 t/#02-tables-gsi.t#
-t/#03-simple-get-put.t#
 t/#TestSettings.pm#
 t/00-check-deps.t
 t/00use.t
