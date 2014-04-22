@@ -1,0 +1,107 @@
+==================================================
+Changes from 2013-04-22 00:00:00 +0000 to present.
+==================================================
+
+-----------------------------------------
+version 0.05 at 2014-04-22 21:02:25 +0000
+-----------------------------------------
+
+  Change: b6d32ed2be5038e63e87ce82ec2b0456a1c59f52
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-22 17:00:43 +0000
+
+    Add ResultLimit for query and scan.
+
+    ResultLimit limits the number of items returned from either query or
+    scan. DynamoDB may return more than your limit but the callback will
+    only be processed N times.
+
+    Add test case for ResultLimit. 
+
+  Change: 7135ec7f9c138a7a3243e99003e2f5c01f555966
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-22 16:42:30 +0000
+
+    Remove hardcoded version in module.
+
+    Some POD documentation fixes.
+
+    Cleanup Dist::Zilla setup. 
+
+  Change: a75f9e760059f4191661af89ebeddb080dbd88c4
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-22 16:28:40 +0000
+
+    Cleanup Dist::Zilla config.
+
+    Add changes from git commit log. 
+
+  Change: d331103d1da3f72576f291a6f39a3816b1e3fc7a
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-16 20:46:12 +0000
+
+    Add changes 
+
+  Change: 1e66c804b731d10a6cb3f0d7b4c19eadbf5bbd4d
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-16 20:41:08 +0000
+
+    Fix tests and batch_write_item to use Key or Item depending on Put or
+    Delete requests. 
+
+  Change: 523107ee4ae50cc228aefc5e8e02fb4188326014
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-16 19:57:02 +0000
+
+    Fix a bug with batch_write_item and encoding the keys of delete and
+    put requests. 
+
+  Change: 351a5284aa98ba97aaa53b8a6ca7a871d31df601
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-16 18:27:05 +0000
+
+    Fix a bug with exists flag, don't interpret it into true or false.
+
+    Don't send undefined values as part of items. 
+
+  Change: b93c88244d07a20bafcd9ab7ea39ba827f55bfca
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-16 17:24:02 +0000
+
+    Add changes and bump version 
+
+  Change: ef45141fe851544ac2a7eb654dbc7885577064af
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-16 10:02:58 +0000
+
+    Fix a misinterpretation of the Limit parameter for scans and queries.
+
+    Cleanup some documentation in the POD. 
+
+  Change: d588e40a6fe66a7eaf759b2e2f4b45565af386a7
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-14 19:20:11 +0000
+
+    Remove unnecessary use 
+
+  Change: c2bbcab5fe538a19ae1907090d36baa9e3fcc9ee
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-14 19:17:58 +0000
+
+    Some changes for github bugtracker, some typo fixes. 
+
+  Change: 747a15784b80d69e08870a11881a29ae2d96acec
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-14 19:10:42 +0000
+
+    Add changes and tell Dist::Zilla about GitHub. 
+
+  Change: 912744be4f3f476840dcd0e1397c3d8ba0227cc5
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-14 18:55:13 +0000
+
+    Initial import of code. 
+
+================
+End of releases.
+================

@@ -1,19 +1,8 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.004';
+
 use strict;
 use warnings;
 
-=head1 NAME
-
-Amazon::DynamoDB::20120810 - interact with DynamoDB using API version 20120810
-
-=head1 VERSION
-
-version 0.004
-
-=head1 DESCRIPTION
-
-=cut
 
 use Future;
 use Future::Utils qw(repeat try_repeat);
@@ -29,38 +18,6 @@ use Amazon::DynamoDB::SignatureV4;
 
 my $json = JSON::XS->new;
 
-=head2 new
-
-Instantiates the API object.
-
-Expects the following named parameters:
-
-=over 4
-
-=item * implementation - the object which provides a Future-returning C<request> method,
-see L<Amazon::DynamoDB::NaHTTP> for example.
-
-=item * host - the host (IP or hostname) to communicate with
-
-=item * port - the port to use for HTTP(S) requests
-
-=item * ssl - true for HTTPS, false for HTTP
-
-=item * algorithm - which signing algorithm to use, default AWS4-HMAC-SHA256
-
-=item * scope - the scope for requests, typically C<region/host/aws4_request>
-
-=item * access_key - the access key for signing requests
-
-=item * secret_key - the secret key for signing requests
-
-=item * debug_failures - print errors if they occur
-
-=item * max_retries - maximum number of retries for a request
-
-=back
-
-=cut
 
 sub new {
     my $class = shift;
@@ -82,42 +39,6 @@ sub max_retries { shift->{max_retries} }
 
 
 
-=head2 create_table
-
-Creates a new table. It may take some time before the table is marked
-as active - use L</wait_for_table_status> to poll until the status changes.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html>
-
-  $ddb->create_table(
-     TableName => $table_name,
-     ReadCapacityUnits => 2,
-     WriteCapacityUnits => 2,
-     AttributeDefinitions => {
-         user_id => 'N',
-         date => 'N',
-     },
-     KeySchema => ['user_id', 'date'],
-     LocalSecondaryIndexes => [
-         {
-             IndexName => 'UserDateIndex',
-             KeySchema => ['user_id', 'date'],
-             Projection => {
-                 ProjectionType => 'KEYS_ONLY',
-             },
-             ProvisionedThroughput => {
-                 ReadCapacityUnits => 2,
-                 WriteCapacityUnits => 2,
-             }
-         }
-     ]
-  );
-
-=back
-
-=cut
 
 sub create_table {
     my $self = shift;
@@ -201,17 +122,6 @@ sub create_table {
     $self->_process_request($req)
 }
 
-=head2 describe_table
-
-Describes the given table.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html>
-
-  $ddb->describe_table(TableName => $table_name);
-
-=cut
 
 sub describe_table {
     my $self = shift;
@@ -227,17 +137,6 @@ sub describe_table {
                             });
 }
 
-=head2 delete_table
-
-Delete a table entirely.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DeleteTable.html>
-
-  $ddb->delete_table(TableName => $table_name)
-
-=cut
 
 sub delete_table {
     my $self = shift;
@@ -254,21 +153,6 @@ sub delete_table {
                             });
 }
 
-=head2 wait_for_table_status
-
-Waits for the given table to be marked as active.
-
-=over 4
-
-=item * TableName - the table name
-
-=item * WaitInterval - default wait interval in seconds.
- 
-=item * DesiredStatus - status to expect before completing.  Defaults to ACTIVE
-
-  $ddb->wait_for_table_status(TableName => $table_name);
-
-=cut
 
 sub wait_for_table_status {
     my $self = shift;
@@ -289,25 +173,6 @@ sub wait_for_table_status {
     };
 }
 
-=head2 each_table
-
-Run code for all current tables.
-
-Takes a coderef as the first parameter, will call this for each table found.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ListTables.html>
-
-
-  my @all_tables;    
-  $ddb->each_table(
-        sub {
-            my $table_name =shift;
-            push @all_tables, $table_name;
-        });
-
-=cut
 
 sub each_table {
     my $self = shift;
@@ -338,22 +203,6 @@ sub each_table {
     } while => sub { !$finished };
 }
 
-=head2 put_item
-
-Writes a single item to the table.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html>
-
-  $ddb->put_item(
-     TableName => $table_name,
-     Item => {
-       name => 'Test Name'
-     },
-     ReturnValues => 'ALL_OLD');
-
-=cut
 
 sub put_item {
     my $self = shift;
@@ -373,42 +222,6 @@ sub put_item {
 }
 
 
-=head2 update_item
-
-Updates a single item in the table.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateItem.html>
-
-  $ddb->update_item(
-        TableName => $table_name,
-        Key => {
-            user_id => 2
-        },
-        AttributeUpdates => {
-            name => {
-                Action => 'PUT',
-                Value => "Rusty Conover-3",
-            },
-            favorite_color => {
-                Action => 'DELETE'
-            },
-            test_numbers => {
-                Action => 'DELETE',
-                Value => [500]
-            },
-            added_number => {
-                Action => 'ADD',
-                Value => 5,
-            },
-            subtracted_number => {
-                Action => 'ADD',
-                Value => -5,
-            },
-        });
-
-=cut
 
 sub update_item {
     my $self = shift;
@@ -428,21 +241,6 @@ sub update_item {
     $self->_process_request($req, \&_decode_single_item_change_response);
 }
 
-=head2 delete_item
-
-Deletes a single item from the table.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DeleteItem.html>
-
-  $ddb->delete_item(
-    TableName => $table_name,
-    Key => {
-      user_id => 5
-  });
-
-=cut
 
 
 
@@ -465,25 +263,6 @@ sub delete_item {
 
 
 
-=head2 get_item
-
-Retrieve an items from one tables.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html>
-
-  my $found_item;
-  my $get = $ddb->get_item(
-    sub {
-      $found_item = shift;
-    },
-    TableName => $table_name,
-    Key => {
-      user_id => 6
-    });
-
-=cut
 
 sub get_item {
     my $self = shift;
@@ -509,42 +288,6 @@ sub get_item {
 }
 
 
-=head2 batch_write_item
-
-Put or delete a collection of items.  
-
-Has no restriction on the number of items able to be processed at one time.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html>
-
-  $ddb->batch_write_item(
-    RequestItems => {
-       books => [
-            {
-                DeleteRequest => {
-                    book_id => 3000,
-                }
-            },
-       ],
-       users => [
-            {
-                PutRequest => {
-                    user_id => 3000,
-                    name => "Test batch write",
-                }
-            },
-            {
-                PutRequest => {
-                    user_id => 3001,
-                    name => "Test batch write",
-                }
-            }
-        ]
-    });
-
-=cut
 
 
 sub batch_write_item {
@@ -624,34 +367,6 @@ sub batch_write_item {
 
 
 
-=head2 batch_get_item
-
-Retrieve a batch of items from one or more tables.
-
-Takes a coderef which will be called for each found item, followed by
-these named parameters:
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html>
-
-  $ddb->batch_get_item(
-    sub {
-        my ($table, $item) = @_;
-    },
-    RequestItems => {
-        $table_name => {
-            ConsistentRead => 'true',
-            AttributesToGet => ['user_id', 'name'],
-            Keys => [
-                {
-                    user_id => 1,
-                },
-            ],
-        }
-    })
-
-=cut
 
 sub batch_get_item {
     my $self = shift;
@@ -733,29 +448,6 @@ sub batch_get_item {
 }
 
 
-=head2 query
-
-Query a table or an index.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html>
-
-  $ddb->query(
-    sub {
-         my $item = shift;
-    },
-    KeyConditions => {
-        user_id => {
-            ComparisonOperator => "EQ"
-            AttributeValueList => 1,
-        },
-    },
-    AttributesToGet => ["user_id"],
-    TableName => $table_name
-  );
-   
-=cut
 
 sub query {
     my $self = shift;
@@ -810,29 +502,6 @@ sub query {
 }
 
 
-
-
-=head2 scan
-
-Scan a table for values with an optional filter expression.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html>
-
-  $ddb->scan(
-    sub {
-      my $item = shift;
-      push @found_items, $item;
-    },
-    TableName => $table_name,
-    ScanFilter => {
-      user_id => {
-        ComparisonOperator => 'NOT_NULL',
-      }
-    });
-
-=cut
 
 
 
@@ -894,16 +563,6 @@ sub scan {
     $self->_scan_or_query_process('Scan', $payload, $code, \%args);
 }
 
-=head1 METHODS - Internal
-
-The following methods are intended for internal use and are documented
-purely for completeness - for normal operations see L</METHODS> instead.
-
-=head2 make_request
-
-Generates an L<HTTP::Request>.
-
-=cut
 
 sub make_request {
     my $self = shift;
@@ -967,10 +626,13 @@ sub _scan_or_query_process {
                 
                 for my $entry (@{$data->{Items}}) {
                     $code->(_decode_item_attributes($entry));
+                    $records_seen += 1;
+                    if (defined($args->{ResultLimit}) && $records_seen >= $args->{ResultLimit}) {
+                        $finished = 1;
+                        last;
+                    }
                 }
                 $payload->{ExclusiveStartKey} = $data->{LastEvaluatedKey};
-                
-                $records_seen += $data->{Count};
                 
                 if (!defined($payload->{ExclusiveStartKey})) {
                     $finished = 1;
@@ -984,20 +646,6 @@ sub _scan_or_query_process {
 }
 
 
-=head1 FUNCTIONS - Internal
-
-=head2 _encode_type_and_value
-
-Returns an appropriate type (N, S, SS etc.) and stringified/encoded value for the given
-value.
-
-DynamoDB only uses strings even if there is a Numeric value specified,
-so while the type will be expressed as a Number the value will be
-stringified.
-
-C<http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html>
-
-=cut
 
 sub _encode_type_and_value {
     my $v = shift;
@@ -1331,6 +979,367 @@ sub _create_key_schema {
 
 __END__
 
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+Amazon::DynamoDB::20120810
+
+=head1 VERSION
+
+version 0.05
+
+=head1 DESCRIPTION
+
+=head2 new
+
+Instantiates the API object.
+
+Expects the following named parameters:
+
+=over 4
+
+=item * implementation - the object which provides a Future-returning C<request> method,
+see L<Amazon::DynamoDB::NaHTTP> for example.
+
+=item * host - the host (IP or hostname) to communicate with
+
+=item * port - the port to use for HTTP(S) requests
+
+=item * ssl - true for HTTPS, false for HTTP
+
+=item * algorithm - which signing algorithm to use, default AWS4-HMAC-SHA256
+
+=item * scope - the scope for requests, typically C<region/host/aws4_request>
+
+=item * access_key - the access key for signing requests
+
+=item * secret_key - the secret key for signing requests
+
+=item * debug_failures - print errors if they occur
+
+=item * max_retries - maximum number of retries for a request
+
+=back
+
+=head2 create_table
+
+Creates a new table. It may take some time before the table is marked
+as active - use L</wait_for_table_status> to poll until the status changes.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html>
+
+  $ddb->create_table(
+     TableName => $table_name,
+     ReadCapacityUnits => 2,
+     WriteCapacityUnits => 2,
+     AttributeDefinitions => {
+         user_id => 'N',
+         date => 'N',
+     },
+     KeySchema => ['user_id', 'date'],
+     LocalSecondaryIndexes => [
+         {
+             IndexName => 'UserDateIndex',
+             KeySchema => ['user_id', 'date'],
+             Projection => {
+                 ProjectionType => 'KEYS_ONLY',
+             },
+             ProvisionedThroughput => {
+                 ReadCapacityUnits => 2,
+                 WriteCapacityUnits => 2,
+             }
+         }
+     ]
+  );
+
+=back
+
+=head2 describe_table
+
+Describes the given table.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html>
+
+  $ddb->describe_table(TableName => $table_name);
+
+=head2 delete_table
+
+Delete a table.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DeleteTable.html>
+
+  $ddb->delete_table(TableName => $table_name)
+
+=head2 wait_for_table_status
+
+Waits for the given table to be marked as active.
+
+=over 4
+
+=item * TableName - the table name
+
+=item * WaitInterval - default wait interval in seconds.
+
+=item * DesiredStatus - status to expect before completing.  Defaults to ACTIVE
+
+=back
+
+  $ddb->wait_for_table_status(TableName => $table_name);
+
+=head2 each_table
+
+Run code for all current tables.
+
+Takes a coderef as the first parameter, will call this for each table found.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ListTables.html>
+
+  my @all_tables;    
+  $ddb->each_table(
+        sub {
+            my $table_name =shift;
+            push @all_tables, $table_name;
+        });
+
+=head2 put_item
+
+Writes a single item to the table.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html>
+
+  $ddb->put_item(
+     TableName => $table_name,
+     Item => {
+       name => 'Test Name'
+     },
+     ReturnValues => 'ALL_OLD');
+
+=head2 update_item
+
+Updates a single item in the table.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateItem.html>
+
+  $ddb->update_item(
+        TableName => $table_name,
+        Key => {
+            user_id => 2
+        },
+        AttributeUpdates => {
+            name => {
+                Action => 'PUT',
+                Value => "Rusty Conover-3",
+            },
+            favorite_color => {
+                Action => 'DELETE'
+            },
+            test_numbers => {
+                Action => 'DELETE',
+                Value => [500]
+            },
+            added_number => {
+                Action => 'ADD',
+                Value => 5,
+            },
+            subtracted_number => {
+                Action => 'ADD',
+                Value => -5,
+            },
+        });
+
+=head2 delete_item
+
+Deletes a single item from the table.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DeleteItem.html>
+
+  $ddb->delete_item(
+    TableName => $table_name,
+    Key => {
+      user_id => 5
+  });
+
+=head2 get_item
+
+Retrieve an items from one tables.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_GetItem.html>
+
+  my $found_item;
+  my $get = $ddb->get_item(
+    sub {
+      $found_item = shift;
+    },
+    TableName => $table_name,
+    Key => {
+      user_id => 6
+    });
+
+=head2 batch_write_item
+
+Put or delete a collection of items.  
+
+Has no restriction on the number of items able to be processed at one time.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html>
+
+  $ddb->batch_write_item(
+    RequestItems => {
+       books => [
+            {
+                DeleteRequest => {
+                    book_id => 3000,
+                }
+            },
+       ],
+       users => [
+            {
+                PutRequest => {
+                    user_id => 3000,
+                    name => "Test batch write",
+                }
+            },
+            {
+                PutRequest => {
+                    user_id => 3001,
+                    name => "Test batch write",
+                }
+            }
+        ]
+    });
+
+=head2 batch_get_item
+
+Retrieve a batch of items from one or more tables.
+
+Takes a coderef which will be called for each found item, followed by
+these named parameters:
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html>
+
+  $ddb->batch_get_item(
+    sub {
+        my ($table, $item) = @_;
+    },
+    RequestItems => {
+        $table_name => {
+            ConsistentRead => 'true',
+            AttributesToGet => ['user_id', 'name'],
+            Keys => [
+                {
+                    user_id => 1,
+                },
+            ],
+        }
+    })
+
+=head2 query
+
+Query a table or an index.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html>
+
+Additional parameters:
+
+=over 4
+
+=item * ResultLimit - maximum number of items to return
+
+=back
+
+  $ddb->query(
+    sub {
+         my $item = shift;
+    },
+    KeyConditions => {
+        user_id => {
+            ComparisonOperator => "EQ"
+            AttributeValueList => 1,
+        },
+    },
+    AttributesToGet => ["user_id"],
+    TableName => $table_name
+  );
+
+=head2 scan
+
+Scan a table for values with an optional filter expression.
+
+Amazon Documentation:
+
+L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html>
+
+Additional parameters:
+
+=over 4
+
+=item * ResultLimit - maximum number of items to return
+
+=back
+
+  $ddb->scan(
+    sub {
+      my $item = shift;
+      push @found_items, $item;
+    },
+    TableName => $table_name,
+    ScanFilter => {
+      user_id => {
+        ComparisonOperator => 'NOT_NULL',
+      }
+    });
+
+=head1 NAME
+
+Amazon::DynamoDB::20120810 - interact with DynamoDB using API version 20120810
+
+=head1 METHODS - Internal
+
+The following methods are intended for internal use and are documented
+purely for completeness - for normal operations see L</METHODS> instead.
+
+=head2 make_request
+
+Generates an L<HTTP::Request>.
+
+=head1 FUNCTIONS - Internal
+
+=head2 _encode_type_and_value
+
+Returns an appropriate type (N, S, SS etc.) and stringified/encoded value for the given
+value.
+
+DynamoDB only uses strings even if there is a Numeric value specified,
+so while the type will be expressed as a Number the value will be
+stringified.
+
+C<http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html>
+
 =head1 AUTHOR
 
 Rusty Conover <rusty@luckydinosaur.com>
@@ -1343,3 +1352,16 @@ Tom Molesworth <cpan@entitymodel.com>
 
 Copyright Tom Molesworth 2013. Licensed under the same terms as Perl itself.
 Copyright 2014 Rusty Conover, Lucky Dinosaur, LLC.  Licensed under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Rusty Conover <rusty@luckydinosaur.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Rusty Conover.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

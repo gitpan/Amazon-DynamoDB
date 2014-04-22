@@ -4,15 +4,43 @@ package Amazon::DynamoDB;
 use strict;
 use warnings;
 
-our $VERSION = '0.004';
+
+use Amazon::DynamoDB::20120810;
+use Module::Load;
+
+
+sub new {
+    my $class = shift;
+    my %args = @_;
+    $args{implementation} //= __PACKAGE__ . '::LWP';
+    unless (ref $args{implementation}) {
+        Module::Load::load($args{implementation});
+        $args{implementation} = $args{implementation}->new(%args);
+    }
+    my $version = delete $args{version} || '201208010';
+    my $pkg = __PACKAGE__ . '::' . $version;
+    if (my $code = $pkg->can('new')) {
+        $class = $pkg if $class eq __PACKAGE__;
+        return $code->($class, %args)
+    }
+    die "No support for version $version";
+}
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
-Amazon::DynamoDB - support for the AWS DynamoDB API
+Amazon::DynamoDB - API support for Amazon DynamoDB
 
 =head1 VERSION
 
-version 0.004
+version 0.05
 
 =head1 SYNOPSIS
 
@@ -63,35 +91,11 @@ should be suitable for integration into a L<Mojolicious> application.  (not well
 
 =back
 
-=cut
+=head1 NAME
 
-use Amazon::DynamoDB::20120810;
-use Module::Load;
+Amazon::DynamoDB - support for the AWS DynamoDB API
 
 =head1 METHODS
-
-=cut
-
-sub new {
-    my $class = shift;
-    my %args = @_;
-    $args{implementation} //= __PACKAGE__ . '::LWP';
-    unless (ref $args{implementation}) {
-        Module::Load::load($args{implementation});
-        $args{implementation} = $args{implementation}->new(%args);
-    }
-    my $version = delete $args{version} || '201208010';
-    my $pkg = __PACKAGE__ . '::' . $version;
-    if (my $code = $pkg->can('new')) {
-        $class = $pkg if $class eq __PACKAGE__;
-        return $code->($class, %args)
-    }
-    die "No support for version $version";
-}
-
-1;
-
-__END__
 
 =head1 SEE ALSO
 
@@ -104,7 +108,6 @@ __END__
 =item * L<WebService::Amazon::DynamoDB> - this module was based off of this initial code.
 
 =back
-
 
 =head1 IMPLEMENTATION PHILOSOPHY
 
@@ -133,3 +136,16 @@ Tom Molesworth <cpan@entitymodel.com>
 
 Copyright 2014 Lucky Dinosaur, LLC. Licensed under the same terms as Perl itself.
 Copyright Tom Molesworth 2013. Licensed under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Rusty Conover <rusty@luckydinosaur.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Rusty Conover.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

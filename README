@@ -1,9 +1,9 @@
 
 
 This archive contains the distribution Amazon-DynamoDB,
-version 0.004:
+version 0.05:
 
-  API support for Amazon DynamoDB
+  A client for Amazon DynamoDB
 
 This software is copyright (c) 2014 by Rusty Conover.
 

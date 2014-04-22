@@ -10,7 +10,7 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "API support for Amazon DynamoDB",
+  "ABSTRACT" => "A client for Amazon DynamoDB",
   "AUTHOR" => "Rusty Conover <rusty\@luckydinosaur.com>",
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
@@ -52,13 +52,12 @@ my %WriteMakefileArgs = (
     "IO::Async::Loop" => 0,
     "IO::Async::SSL" => 0,
     "String::Random" => 0,
-    "Test::CheckDeps" => "0.010",
     "Test::Differences" => 0,
-    "Test::More" => "0.94",
+    "Test::More" => 0,
     "Test::Most" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.004",
+  "VERSION" => "0.05",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -90,9 +89,8 @@ my %FallbackPrereqs = (
   "Net::Async::HTTP" => "0.30",
   "POSIX" => 0,
   "String::Random" => 0,
-  "Test::CheckDeps" => "0.010",
   "Test::Differences" => 0,
-  "Test::More" => "0.94",
+  "Test::More" => 0,
   "Test::Most" => 0,
   "URI" => 0,
   "URI::Escape" => 0,

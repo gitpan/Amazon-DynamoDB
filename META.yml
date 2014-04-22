@@ -1,5 +1,5 @@
 ---
-abstract: 'API support for Amazon DynamoDB'
+abstract: 'A client for Amazon DynamoDB'
 author:
   - 'Rusty Conover <rusty@luckydinosaur.com>'
 build_requires:
@@ -8,9 +8,8 @@ build_requires:
   IO::Async::Loop: '0'
   IO::Async::SSL: '0'
   String::Random: '0'
-  Test::CheckDeps: '0.010'
   Test::Differences: '0'
-  Test::More: '0.94'
+  Test::More: '0'
   Test::Most: '0'
   lib: '0'
 configure_requires:
@@ -48,7 +47,6 @@ requires:
   strict: '0'
   warnings: '0'
 resources:
-  bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Amazon-DynamoDB
-  homepage: http://search.cpan.org/dist/Amazon-DynamoDB/
+  bugtracker: https://github.com/rustyconover/Amazon-DynamoDB/issues
   repository: git://github.com/rustyconover/Amazon-DynamoDB.git
-version: '0.004'
+version: '0.05'
