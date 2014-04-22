@@ -989,7 +989,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 DESCRIPTION
 

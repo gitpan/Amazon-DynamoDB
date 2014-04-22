@@ -41,7 +41,7 @@ Amazon::DynamoDB::MojoUA
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 DESCRIPTION
 
