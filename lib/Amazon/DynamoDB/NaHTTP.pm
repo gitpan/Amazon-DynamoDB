@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::NaHTTP;
-$Amazon::DynamoDB::NaHTTP::VERSION = '0.07';
+$Amazon::DynamoDB::NaHTTP::VERSION = '0.08';
 use strict;
 use warnings;
 
@@ -84,7 +84,7 @@ Amazon::DynamoDB::NaHTTP
 
 =head1 VERSION
 
-version 0.07
+version 0.08
 
 =head1 DESCRIPTION
 

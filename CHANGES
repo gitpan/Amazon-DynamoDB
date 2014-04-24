@@ -1,10 +1,45 @@
 ==================================================
-Changes from 2013-04-22 00:00:00 +0000 to present.
+Changes from 2013-04-24 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.07 at 2014-04-22 21:09:21 +0000
+version 0.08 at 2014-04-24 16:01:28 +0000
 -----------------------------------------
+
+  Change: 3fbfa7a2e510b57f208a0efb47104780970e16cf
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-24 12:01:07 +0000
+
+    Fix some test data to match DynamoDB output. 
+
+  Change: 96f23b0ca1ebc3ce4b24d5de1ccdc67153916f78
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-24 10:53:21 +0000
+
+    Bump version 
+
+  Change: f7950f9e505f12743b3e383822fd27b29e5714cc
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-24 09:33:08 +0000
+
+    Don't encode undefined values part of PutRequests in
+    batch_write_item. This matches the behavior of put_item. 
+
+  Change: f9569f2a976276cf0c89077a213e009762d59083
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-24 09:32:11 +0000
+
+    Set a timeout of 90 seconds for DynamoDB to reply, should normally be
+    much faster than this.
+
+    Also set the keep_alive maximum socket count to a number larger than
+    one, and use a proper User Agent identifier. 
+
+  Change: 2e469174ffcb20545040d3cd46e368447b3c8679
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-22 17:12:45 +0000
+
+    Fix problem with versions being included, cut 0.07 
 
   Change: b6d32ed2be5038e63e87ce82ec2b0456a1c59f52
   Author: Rusty Conover <rusty@luckydinosaur.com>

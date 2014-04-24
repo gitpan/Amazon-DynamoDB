@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::LWP;
-$Amazon::DynamoDB::LWP::VERSION = '0.07';
+$Amazon::DynamoDB::LWP::VERSION = '0.08';
 use strict;
 use warnings;
 
@@ -22,7 +22,10 @@ sub request {
 }
 
 
-sub ua { shift->{ua} ||= LWP::UserAgent->new(keep_alive => 1) }
+sub ua { shift->{ua} ||= LWP::UserAgent->new(keep_alive => 10,
+                                             agent => 'Amazon::DynamoDB/1.0',
+                                             timeout => 90,
+                                         ); }
 
 
 
@@ -55,7 +58,7 @@ Amazon::DynamoDB::LWP
 
 =head1 VERSION
 
-version 0.07
+version 0.08
 
 =head1 DESCRIPTION
 
