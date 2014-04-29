@@ -11,7 +11,7 @@ use ExtUtils::MakeMaker 6.30;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "A client for Amazon DynamoDB",
-  "AUTHOR" => "Rusty Conover <rusty\@luckydinosaur.com>",
+  "AUTHOR" => "Rusty Conover <rusty\@luckydinosaur.com>, Tom Molesworth <cpan\@entitymodel.com>",
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
@@ -57,7 +57,7 @@ my %WriteMakefileArgs = (
     "Test::Most" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.08",
+  "VERSION" => "0.09",
   "test" => {
     "TESTS" => "t/*.t"
   }

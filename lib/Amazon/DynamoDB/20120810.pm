@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.08';
+$Amazon::DynamoDB::20120810::VERSION = '0.09';
 use strict;
 use warnings;
 
@@ -211,6 +211,7 @@ sub put_item {
     my $req = $self->make_request(
         target => 'PutItem',
         payload => _make_payload(\%args, 
+                                 'ConditionalOperator',
                                  'Expected',
                                  'Item',
                                  'ReturnConsumedCapacity',
@@ -231,6 +232,7 @@ sub update_item {
         target => 'UpdateItem',
         payload => _make_payload(\%args, 
                                  'AttributeUpdates',
+                                 'ConditionalOperator',
                                  'Expected',
                                  'Key',
                                  'ReturnConsumedCapacity',
@@ -251,6 +253,7 @@ sub delete_item {
     my $req = $self->make_request(
         target => 'DeleteItem',
         payload => _make_payload(\%args, 
+                                 'ConditionalOperator',
                                  'Expected',
                                  'Key',
                                  'ReturnConsumedCapacity',
@@ -401,6 +404,7 @@ sub batch_get_item {
         }
     }
 
+    my $records_seen =0;
     try_repeat {
 
         my %payload = (
@@ -435,6 +439,11 @@ sub batch_get_item {
                 foreach my $table_name (keys %{$data->{Responses}}) {
                     foreach my $item (@{$data->{Responses}->{$table_name}}) {
                         $code->($table_name, _decode_item_attributes($item));
+                        $records_seen += 1;
+                        if (defined($args{ResultLimit}) &&$records_seen >= $args{ResultLimit}) {
+                            @all_requests = ();
+                            return $data;
+                        }
                     }
                 }
                     
@@ -451,7 +460,6 @@ sub batch_get_item {
 }
 
 
-
 sub query {
     my $self = shift;
     my $code = shift;
@@ -466,9 +474,11 @@ sub query {
     my $payload = _make_payload(\%args,
                                 'AttributesToGet',
                                 'ConsistentRead',
+                                'ConditionalOperator',
                                 'ExclusiveStartKey',
                                 'IndexName',
                                 'Limit',
+                                'QueryFilter',
                                 'ReturnConsumedCapacity',
                                 'ScanIndexForward',
                                 'Select',
@@ -524,44 +534,12 @@ sub scan {
                                 'ExclusiveStartKey',
                                 'Limit',
                                 'ReturnConsumedCapacity',
+                                'ScanFilter',
                                 'Segment',
                                 'Select',
                                 'TableName',
                                 'TotalSegments',
                             );
-
-        
-    if (defined($args{ScanFilter})) {
-        ref($args{ScanFilter}) eq 'HASH' || Carp::confess("ScanFilter must be a hashref");
-        my $filter;
-        foreach my $field_name (keys %{$args{ScanFilter}}) {
-            my $f = $args{ScanFilter}->{$field_name};
-            my $compare_op = $f->{ComparisonOperator} // 'EQ';
-            $compare_op =~ /^(EQ|NE|LE|LT|GE|GT|NOT_NULL|NULL|CONTAINS|NOT_CONTAINS|BEGINS_WITH|IN|BETWEEN)$/ 
-                || Carp::confess("Unknown comparison operator specified: $compare_op");
-                
-            my $value_list = $f->{AttributeValueList};
-            if ($compare_op =~ /^(EQ|NE|LE|LT|GE|GT|CONTAINS|NOT_CONTAINS|BEGINS_WITH)$/) {
-                defined($value_list) || Carp::confess("No defined value for comparison operator: $compare_op");
-                $value_list = [ { _encode_type_and_value($value_list) } ];
-            } elsif ($compare_op eq 'IN') {
-                if (!ref($value_list)) {
-                    $value_list = [$value_list];
-                }
-                $value_list = [ map { { _encode_type_and_value($_) } } @$value_list];
-            } elsif ($compare_op eq 'BETWEEN') {
-                ref($value_list) eq 'ARRAY' || Carp::confess("Use of BETWEEN comparision operator requires an array");
-                scalar(@$value_list) == 2 || Carp::confess("BETWEEN comparison operator requires two values");
-                $value_list = [ map { { _encode_type_and_value($_) } } @$value_list];
-            }
-            $filter->{$field_name} = {
-                ComparisonOperator => $compare_op,
-                (defined($value_list) ? (AttributeValueList => $value_list) : ()),
-            };
-        }
-            
-        $payload->{ScanFilter} = $filter;
-    }
 
     $self->_scan_or_query_process('Scan', $payload, $code, \%args);
 }
@@ -814,6 +792,39 @@ my $encode_key = sub {
     return $r;
 };
 
+my $encode_filter = sub {
+    my $source = shift;
+
+    my $r;
+
+    foreach my $field_name (keys %$source) {
+        my $f = $source->{$field_name};
+        my $compare_op = $f->{ComparisonOperator} // 'EQ';
+        $compare_op =~ /^(EQ|NE|LE|LT|GE|GT|NOT_NULL|NULL|CONTAINS|NOT_CONTAINS|BEGINS_WITH|IN|BETWEEN)$/ 
+            || Carp::confess("Unknown comparison operator specified: $compare_op");
+        
+        my $value_list = $f->{AttributeValueList};
+        if ($compare_op =~ /^(EQ|NE|LE|LT|GE|GT|CONTAINS|NOT_CONTAINS|BEGINS_WITH)$/) {
+            defined($value_list) || Carp::confess("No defined value for comparison operator: $compare_op");
+            $value_list = [ { _encode_type_and_value($value_list) } ];
+        } elsif ($compare_op eq 'IN') {
+            if (!ref($value_list)) {
+                $value_list = [$value_list];
+            }
+            $value_list = [ map { { _encode_type_and_value($_) } } @$value_list];
+        } elsif ($compare_op eq 'BETWEEN') {
+            ref($value_list) eq 'ARRAY' || Carp::confess("Use of BETWEEN comparision operator requires an array");
+            scalar(@$value_list) == 2 || Carp::confess("BETWEEN comparison operator requires two values");
+            $value_list = [ map { { _encode_type_and_value($_) } } @$value_list];
+        }
+        $r->{$field_name} = {
+            ComparisonOperator => $compare_op,
+            (defined($value_list) ? (AttributeValueList => $value_list) : ()),
+        };
+    }
+    return $r;
+};
+
 my $parameter_type_definitions = {
     AttributesToGet => {
         source_type => 'ARRAY',
@@ -834,6 +845,9 @@ my $parameter_type_definitions = {
     },
     # should be a boolean
     ConsistentRead => {},
+    ConditionalOperator => {
+        allowed_values => ['AND', 'OR'],
+    },
     # should be a positive integer.
     # should be a string.
     ExclusiveStartKey => {
@@ -851,6 +865,10 @@ my $parameter_type_definitions = {
 
                 if (defined($info->{Exists})) {
                     $r->{$key}->{Exists} = $info->{Exists};
+                }
+
+                if (defined($info->{ComparisonOperator})) {
+                    $r->{$key}->{ComparisonOperator} = $info->{ComparisonOperator};
                 }
                 
                 if (defined($info->{Value})) {
@@ -874,19 +892,24 @@ my $parameter_type_definitions = {
     Limit => {
         type_check => 'integer',
     },
+    QueryFilter => {
+        source_type => 'HASH',
+        encode => $encode_filter,
+    },
     ReturnConsumedCapacity => {
         allowed_values => ['INDEXES', 'TOTAL', 'NONE'],
-        defined_default => 'NONE',
     },
     ReturnItemCollectionMetrics => {
         allowed_values => ['NONE', 'SIZE'],
-        defined_default => 'NONE',
     },
     ReturnValues => {
         allowed_values => ['NONE', 'ALL_OLD', 'UPDATED_OLD', 'ALL_NEW', 'UPDATED_NEW'],
-        defined_default => 'NONE',
     },
     ScanIndexForward => {},
+    ScanFilter => {
+        source_type => 'HASH',
+        encode => $encode_filter,
+    },
     Segment => {
         type_check => 'integer',
     },
@@ -995,7 +1018,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 DESCRIPTION
 
@@ -1239,12 +1262,19 @@ L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteIt
 
 Retrieve a batch of items from one or more tables.
 
-Takes a coderef which will be called for each found item, followed by
-these named parameters:
+Takes a coderef which will be called for each found item.
 
 Amazon Documentation:
 
 L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html>
+
+Additional Parameters:
+
+=over
+
+=item * ResultLimit - limit on the total number of results to return.
+
+=back
 
   $ddb->batch_get_item(
     sub {
@@ -1261,36 +1291,6 @@ L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem
             ],
         }
     })
-
-=head2 query
-
-Query a table or an index.
-
-Amazon Documentation:
-
-L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html>
-
-Additional parameters:
-
-=over 4
-
-=item * ResultLimit - maximum number of items to return
-
-=back
-
-  $ddb->query(
-    sub {
-         my $item = shift;
-    },
-    KeyConditions => {
-        user_id => {
-            ComparisonOperator => "EQ"
-            AttributeValueList => 1,
-        },
-    },
-    AttributesToGet => ["user_id"],
-    TableName => $table_name
-  );
 
 =head2 scan
 
@@ -1346,26 +1346,23 @@ stringified.
 
 C<http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html>
 
-=head1 AUTHOR
+=head1 AUTHORS
+
+=over 4
+
+=item *
 
 Rusty Conover <rusty@luckydinosaur.com>
 
-Based on code by:
+=item *
 
 Tom Molesworth <cpan@entitymodel.com>
 
-=head1 LICENSE
-
-Copyright Tom Molesworth 2013. Licensed under the same terms as Perl itself.
-Copyright 2014 Rusty Conover, Lucky Dinosaur, LLC.  Licensed under the same terms as Perl itself.
-
-=head1 AUTHOR
-
-Rusty Conover <rusty@luckydinosaur.com>
+=back
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Rusty Conover.
+This software is copyright (c) 2013 by Tom Molesworth, copyright (c) 2014 Lucky Dinosaur LLC. L<http://www.luckydinosaur.com>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

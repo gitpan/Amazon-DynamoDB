@@ -1,5 +1,5 @@
 package Amazon::DynamoDB;
-$Amazon::DynamoDB::VERSION = '0.08';
+$Amazon::DynamoDB::VERSION = '0.09';
 # ABSTRACT: API support for Amazon DynamoDB
 use strict;
 use warnings;
@@ -40,7 +40,7 @@ Amazon::DynamoDB - API support for Amazon DynamoDB
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -122,28 +122,23 @@ L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Operations.h
 For examples see the test cases, most functionality is well exercised
 via tests.
 
-=back
+=head1 AUTHORS
 
-=head1 AUTHOR
+=over 4
+
+=item *
 
 Rusty Conover <rusty@luckydinosaur.com>
 
-Based on code by:
+=item *
 
 Tom Molesworth <cpan@entitymodel.com>
 
-=head1 LICENSE
-
-Copyright 2014 Lucky Dinosaur, LLC. Licensed under the same terms as Perl itself.
-Copyright Tom Molesworth 2013. Licensed under the same terms as Perl itself.
-
-=head1 AUTHOR
-
-Rusty Conover <rusty@luckydinosaur.com>
+=back
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Rusty Conover.
+This software is copyright (c) 2013 by Tom Molesworth, copyright (c) 2014 Lucky Dinosaur LLC. L<http://www.luckydinosaur.com>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

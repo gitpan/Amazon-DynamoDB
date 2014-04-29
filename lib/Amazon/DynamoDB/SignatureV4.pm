@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::SignatureV4;
-$Amazon::DynamoDB::SignatureV4::VERSION = '0.08';
+$Amazon::DynamoDB::SignatureV4::VERSION = '0.09';
 use strict;
 use warnings;
 
@@ -236,7 +236,7 @@ Amazon::DynamoDB::SignatureV4
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -337,27 +337,23 @@ as a string suitable for the C<Authorization> header.
 
 Returns a signed version of the request.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Tom Molesworth <cpan@entitymodel.com>
+=over 4
 
-wrote L<WebService::Amazon::Signature::v4>
-
-Rusty Conover <rusty@luckydinosaur.com> contributed some bug fixes and placed
-it inside of Amazon::DynamoDB.
-
-=head1 LICENSE
-
-Copyright Tom Molesworth 2012-2013. Licensed under the same terms as Perl itself.
-Copyright Lucky Dinosaur LLC.
-
-=head1 AUTHOR
+=item *
 
 Rusty Conover <rusty@luckydinosaur.com>
 
+=item *
+
+Tom Molesworth <cpan@entitymodel.com>
+
+=back
+
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Rusty Conover.
+This software is copyright (c) 2013 by Tom Molesworth, copyright (c) 2014 Lucky Dinosaur LLC. L<http://www.luckydinosaur.com>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

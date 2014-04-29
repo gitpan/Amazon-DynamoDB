@@ -1,10 +1,48 @@
 ==================================================
-Changes from 2013-04-24 00:00:00 +0000 to present.
+Changes from 2013-04-29 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.08 at 2014-04-24 16:01:28 +0000
+version 0.09 at 2014-04-29 14:10:33 +0000
 -----------------------------------------
+
+  Change: c3c767a1162fb15a1931fec9cb2ce84a2a7287bf
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-29 10:10:13 +0000
+
+    Some Podweaver cleanup bump version to 0.09 
+
+  Change: 456c6bf247b5702618c9be4e6ae81a50341136bb
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-29 10:03:02 +0000
+
+    Add ResultLimit to batch_get_item 
+
+  Change: e21346166db35410cc965f541af739fd19843e6c
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-28 09:15:11 +0000
+
+    Remove defined defaults when they match Amazon's default. 
+
+  Change: f692e4a5499d03711a7ca606a4881d86d8f1c49b
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-25 23:20:13 +0000
+
+    More POD fixes 
+
+  Change: 65a1eff2c8ec82bc7c1aa680012f2c9982c0fcb6
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-25 23:19:16 +0000
+
+    Add README.pod and change dist.ini to generate it. 
+
+  Change: f8b4a113620c5ead625cb30d63667e12b221998b
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-25 23:15:31 +0000
+
+    Add support for ConditionalOperator and QueryFilter to query().
+
+    Add ConditionalOperator to put_item, update_item, delete_item. 
 
   Change: 3fbfa7a2e510b57f208a0efb47104780970e16cf
   Author: Rusty Conover <rusty@luckydinosaur.com>

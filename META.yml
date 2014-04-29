@@ -2,6 +2,7 @@
 abstract: 'A client for Amazon DynamoDB'
 author:
   - 'Rusty Conover <rusty@luckydinosaur.com>'
+  - 'Tom Molesworth <cpan@entitymodel.com>'
 build_requires:
   Data::Dumper: '0'
   File::Slurp: '0'
@@ -49,4 +50,4 @@ requires:
 resources:
   bugtracker: https://github.com/rustyconover/Amazon-DynamoDB/issues
   repository: git://github.com/rustyconover/Amazon-DynamoDB.git
-version: '0.08'
+version: '0.09'
