@@ -1,10 +1,26 @@
 ==================================================
-Changes from 2013-04-29 00:00:00 +0000 to present.
+Changes from 2013-04-30 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.09 at 2014-04-29 14:10:33 +0000
+version 0.10 at 2014-04-30 13:33:14 +0000
 -----------------------------------------
+
+  Change: a7a840ac4e7a83c213a5db83189846ba5a08d942
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-30 09:32:58 +0000
+
+    Bump to version 0.10 
+
+  Change: e485765f3657707f1403a901fdc2b0ab0a29cdf4
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-04-30 09:31:38 +0000
+
+    Add support for AttributeValueList in Expected parameter processing.
+
+    Add test cases to exercise the code.
+
+    Centralize encoding of AttributeValueList to one function. 
 
   Change: c3c767a1162fb15a1931fec9cb2ce84a2a7287bf
   Author: Rusty Conover <rusty@luckydinosaur.com>
