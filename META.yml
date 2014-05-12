@@ -50,4 +50,4 @@ requires:
 resources:
   bugtracker: https://github.com/rustyconover/Amazon-DynamoDB/issues
   repository: git://github.com/rustyconover/Amazon-DynamoDB.git
-version: '0.10'
+version: '0.11'

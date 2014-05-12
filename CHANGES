@@ -1,10 +1,21 @@
 ==================================================
-Changes from 2013-04-30 00:00:00 +0000 to present.
+Changes from 2013-05-12 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.10 at 2014-04-30 13:33:14 +0000
+version 0.11 at 2014-05-12 15:45:47 +0000
 -----------------------------------------
+
+  Change: e8d62ef4aef5570bb66eeb396d33db8aaed88fd9
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-05-12 11:45:18 +0000
+
+    Don't include keys that are the empty string which throw validation
+    errors.
+
+    Add a bit more type checking
+
+    Bump to version 0.11 
 
   Change: a7a840ac4e7a83c213a5db83189846ba5a08d942
   Author: Rusty Conover <rusty@luckydinosaur.com>
