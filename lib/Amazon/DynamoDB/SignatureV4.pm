@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::SignatureV4;
-$Amazon::DynamoDB::SignatureV4::VERSION = '0.11';
+$Amazon::DynamoDB::SignatureV4::VERSION = '0.12';
 use strict;
 use warnings;
 
@@ -236,7 +236,7 @@ Amazon::DynamoDB::SignatureV4
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 SYNOPSIS
 

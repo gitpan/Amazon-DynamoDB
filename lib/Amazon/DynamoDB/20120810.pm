@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.11';
+$Amazon::DynamoDB::20120810::VERSION = '0.12';
 use strict;
 use warnings;
 
@@ -1020,7 +1020,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 DESCRIPTION
 

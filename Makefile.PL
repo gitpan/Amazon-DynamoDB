@@ -48,7 +48,6 @@ my %WriteMakefileArgs = (
   },
   "TEST_REQUIRES" => {
     "Data::Dumper" => 0,
-    "File::Slurp" => 0,
     "IO::Async::Loop" => 0,
     "IO::Async::SSL" => 0,
     "String::Random" => 0,
@@ -57,7 +56,7 @@ my %WriteMakefileArgs = (
     "Test::Most" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.11",
+  "VERSION" => "0.12",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -69,7 +68,6 @@ my %FallbackPrereqs = (
   "Data::Dumper" => 0,
   "Digest::HMAC" => 0,
   "Digest::SHA" => 0,
-  "File::Slurp" => 0,
   "Future" => 0,
   "Future::Utils" => 0,
   "HTTP::Date" => 0,

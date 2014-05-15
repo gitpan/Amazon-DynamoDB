@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::LWP;
-$Amazon::DynamoDB::LWP::VERSION = '0.11';
+$Amazon::DynamoDB::LWP::VERSION = '0.12';
 use strict;
 use warnings;
 
@@ -58,7 +58,7 @@ Amazon::DynamoDB::LWP
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 DESCRIPTION
 
