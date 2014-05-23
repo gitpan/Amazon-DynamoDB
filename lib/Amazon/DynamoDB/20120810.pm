@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.12';
+$Amazon::DynamoDB::20120810::VERSION = '0.13';
 use strict;
 use warnings;
 
@@ -720,11 +720,11 @@ sub _process_request {
                     my ($status, $resp, $req)= @_;
                     my $r;
                     if (defined($resp)) {
-                        $r = $json->decode($resp->decoded_content);
                         if ($resp->code == 500) {
                             $do_retry = 1;
                             $current_retry++;
                         } elsif ($resp->code == 400) {
+                            $r = $json->decode($resp->decoded_content);
                             if ($r->{__type} =~ /ProvisionedThroughputExceededException$/) {
                                 # Need to sleep
                                 $do_retry = 1;
@@ -1020,7 +1020,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.12
+version 0.13
 
 =head1 DESCRIPTION
 
