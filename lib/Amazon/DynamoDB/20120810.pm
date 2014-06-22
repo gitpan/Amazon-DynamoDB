@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.13';
+$Amazon::DynamoDB::20120810::VERSION = '0.14';
 use strict;
 use warnings;
 
@@ -133,7 +133,7 @@ sub describe_table {
     $self->_process_request($req,
                             sub { 
                                 my $content = shift; 
-                                $json->decode($content)->{Table};
+                                $json->utf8->decode($content)->{Table};
                             });
 }
 
@@ -149,7 +149,7 @@ sub delete_table {
     $self->_process_request($req,
                             sub {
                                 my $content = shift;
-                                $json->decode($content)->{TableDescription}
+                                $json->utf8->decode($content)->{TableDescription}
                             });
 }
 
@@ -191,7 +191,7 @@ sub each_table {
         $self->_process_request($req,
                                 sub {
                                     my $result = shift;
-                                    my $data = $json->decode($result);
+                                    my $data = $json->utf8->decode($result);
                                     for my $tbl (@{$data->{TableNames}}) {
                                         $code->($tbl);
                                     }
@@ -285,7 +285,7 @@ sub get_item {
         $req, 
         sub {
             my $result = shift;
-            my $data = $json->decode($result);
+            my $data = $json->utf8->decode($result);
             $code->(_decode_item_attributes($data->{Item}));
         });
 }
@@ -356,7 +356,7 @@ sub batch_write_item {
             $req,
             sub {
                 my $result = shift;
-                my $data = $json->decode($result);
+                my $data = $json->utf8->decode($result);
                     
                 if (defined($data->{UnprocessedItems})) {
                     foreach my $table_name (keys %{$data->{UnprocessedItems}}) {
@@ -435,7 +435,7 @@ sub batch_get_item {
             $req,
             sub {
                 my $result = shift;
-                my $data = $json->decode($result);
+                my $data = $json->utf8->decode($result);
                 foreach my $table_name (keys %{$data->{Responses}}) {
                     foreach my $item (@{$data->{Responses}->{$table_name}}) {
                         $code->($table_name, _decode_item_attributes($item));
@@ -541,7 +541,6 @@ sub make_request {
     my $api_version = '20120810';
     my $host = $self->host;
     my $target = $args{target};
-    my $js = JSON::XS->new;
     my $req = HTTP::Request->new(
         POST => (($self->ssl) ? 'https' : 'http') . '://' . $self->host . ($self->port ? (':' . $self->port) : '') . '/'
     );
@@ -550,11 +549,12 @@ sub make_request {
     my $now = time;
     my $http_date = strftime('%Y%m%dT%H%M%SZ', gmtime($now));
     my $date = strftime('%Y%m%d', gmtime($now));
+
     $req->protocol('HTTP/1.1');
     $req->header( 'Date' => $http_date );
     $req->header( 'x-amz-target', 'DynamoDB_'. $api_version. '.'. $target );
     $req->header( 'content-type' => 'application/x-amz-json-1.0' );
-    my $payload = $js->encode($args{payload});
+    my $payload = $json->utf8->encode($args{payload});
     $req->content($payload);
     $req->header( 'Content-Length' => length($payload));
     my $amz = Amazon::DynamoDB::SignatureV4->new(
@@ -593,7 +593,7 @@ sub _scan_or_query_process {
             $req,
             sub {
                 my $result = shift;
-                my $data = $json->decode($result);
+                my $data = $json->utf8->decode($result);
                 
                 for my $entry (@{$data->{Items}}) {
                     $code->(_decode_item_attributes($entry));
@@ -724,7 +724,7 @@ sub _process_request {
                             $do_retry = 1;
                             $current_retry++;
                         } elsif ($resp->code == 400) {
-                            $r = $json->decode($resp->decoded_content);
+                            $r = $json->utf8->decode($resp->decoded_content);
                             if ($r->{__type} =~ /ProvisionedThroughputExceededException$/) {
                                 # Need to sleep
                                 $do_retry = 1;
@@ -833,8 +833,10 @@ my $parameter_type_definitions = {
         encode => sub {
             my $source = shift;
             my $r;
+            ref($source) eq 'HASH' || Carp::confess("Attribute updates is not a hash ref");
             foreach my $k (keys %$source) {
                 my $op = $source->{$k};
+                ref($op) eq 'HASH' || Carp::confess("AttributeUpdate for field $k is not a hash ref:" . Data::Dumper->Dump([$op]));
                 $r->{$k} = {
                     (defined($op->{Action}) ? (Action => $op->{Action}) : ()),
                     (defined($op->{Value}) ? (Value => { _encode_type_and_value($op->{Value}) }) : ()),
@@ -973,7 +975,7 @@ sub _make_payload {
 }
 
 sub _decode_single_item_change_response {
-    my $r = $json->decode(shift);
+    my $r = $json->utf8->decode(shift);
     if (defined($r->{Attributes})) {
         $r->{Attributes} = _decode_item_attributes($r->{Attributes});
     }
@@ -1020,7 +1022,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 DESCRIPTION
 

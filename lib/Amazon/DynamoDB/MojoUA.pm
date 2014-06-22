@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::MojoUA;
-$Amazon::DynamoDB::MojoUA::VERSION = '0.13';
+$Amazon::DynamoDB::MojoUA::VERSION = '0.14';
 use strict;
 use warnings;
 
@@ -41,7 +41,7 @@ Amazon::DynamoDB::MojoUA
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 DESCRIPTION
 

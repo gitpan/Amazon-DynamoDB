@@ -1,10 +1,18 @@
 ==================================================
-Changes from 2013-05-23 00:00:00 +0000 to present.
+Changes from 2013-06-22 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.13 at 2014-05-23 22:15:22 +0000
+version 0.14 at 2014-06-22 18:48:14 +0000
 -----------------------------------------
+
+  Change: 9f4ba26a757fc6038bdace47a71cc2c0e62a3dc9
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-06-22 14:47:31 +0000
+
+    Bump to version 0.14
+
+    Fix utf8 encode/decode for requests. 
 
   Change: 52be9b45c66952e5959617a5b30ad5a7e6ce4965
   Author: Rusty Conover <rusty@luckydinosaur.com>
