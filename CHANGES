@@ -1,10 +1,24 @@
 ==================================================
-Changes from 2013-06-22 00:00:00 +0000 to present.
+Changes from 2013-06-30 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.14 at 2014-06-22 18:48:14 +0000
+version 0.15 at 2014-06-30 01:23:23 +0000
 -----------------------------------------
+
+  Change: ca65aaf0104221d8a3babfe9eb8e47c8527de93f
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-06-29 21:21:50 +0000
+
+    Version 0.15
+
+    Add type restraints for parameter checking from Type::Tiny and using
+    Kavorka. A few bugs were found with this additional checking. Edit
+    the appropriate test cases to terminate on the first failure.
+
+    Require a callback now for ->scan() and ->query() rather than it
+    being optional. This is now because of Kavorka's limitation on
+    optional positional parameters being followed by named parameters. 
 
   Change: 9f4ba26a757fc6038bdace47a71cc2c0e62a3dc9
   Author: Rusty Conover <rusty@luckydinosaur.com>

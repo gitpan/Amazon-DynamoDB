@@ -12,6 +12,8 @@ lib/Amazon/DynamoDB/LWP.pm
 lib/Amazon/DynamoDB/MojoUA.pm
 lib/Amazon/DynamoDB/NaHTTP.pm
 lib/Amazon/DynamoDB/SignatureV4.pm
+lib/Amazon/DynamoDB/Types.pm
+lib/Amazon/DynamoDB/Types.pm~
 t/00use.t
 t/01-tables-simple.t
 t/02-tables-gsi.t
