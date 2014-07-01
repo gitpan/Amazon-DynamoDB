@@ -1,10 +1,21 @@
 ==================================================
-Changes from 2013-06-30 00:00:00 +0000 to present.
+Changes from 2013-07-01 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.15 at 2014-06-30 01:23:23 +0000
+version 0.16 at 2014-07-01 19:20:24 +0000
 -----------------------------------------
+
+  Change: 47010e9100d5266a0c3d672d536956a34cefca75
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-07-01 15:19:17 +0000
+
+    Version 0.16
+
+    Fix compatibility with Type::Tiny 0.044.
+
+    Add checks around Expected so you can't use both Value and Exists and
+    AttributeValueList and ComparisionOperator at the same time. 
 
   Change: ca65aaf0104221d8a3babfe9eb8e47c8527de93f
   Author: Rusty Conover <rusty@luckydinosaur.com>
