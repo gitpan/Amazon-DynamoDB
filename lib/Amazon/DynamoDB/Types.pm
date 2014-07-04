@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::Types;
-$Amazon::DynamoDB::Types::VERSION = '0.17';
+$Amazon::DynamoDB::Types::VERSION = '0.18';
 use strict;
 use warnings;
 use Type::Library
@@ -116,8 +116,8 @@ declare ExpectedValueType, as Dict[AttributeValueList => Optional[AttributeValue
                                ], where { scalar(keys %$_) > 0 && 
                                               # don't allow both forms of expected/comparision operator
                                               # to be used at the same time.
-                                              ((exists($_->{AttributeValueList}) || exists($_->{ComparisonOperatorType}))
-                                              &&
+                                              ((exists($_->{AttributeValueList}) || exists($_->{ComparisonOperator}))
+                                               xor
                                               (exists($_->{Exists}) || exists($_->{Value})))
                                           };
 
@@ -174,7 +174,7 @@ Amazon::DynamoDB::Types
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 AUTHORS
 

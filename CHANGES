@@ -1,10 +1,18 @@
 ==================================================
-Changes from 2013-07-02 00:00:00 +0000 to present.
+Changes from 2013-07-04 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.17 at 2014-07-02 21:46:12 +0000
+version 0.18 at 2014-07-04 13:06:36 +0000
 -----------------------------------------
+
+  Change: fe47bb5a50fcfb0c7ea9d0aa9094f9e3a7b810fe
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-07-04 09:05:12 +0000
+
+    Fix a bug in regards to the expected type definition.
+
+    Version 0.18 
 
   Change: 0f74634ebe42f87ba86a382fcbd83c8db4fa077c
   Author: Rusty Conover <rusty@luckydinosaur.com>

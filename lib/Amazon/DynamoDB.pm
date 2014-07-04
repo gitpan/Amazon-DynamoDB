@@ -1,5 +1,5 @@
 package Amazon::DynamoDB;
-$Amazon::DynamoDB::VERSION = '0.17';
+$Amazon::DynamoDB::VERSION = '0.18';
 # ABSTRACT: API support for Amazon DynamoDB
 use strict;
 use warnings;
@@ -40,7 +40,7 @@ Amazon::DynamoDB - API support for Amazon DynamoDB
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 
