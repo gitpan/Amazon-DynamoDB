@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::NaHTTP;
-$Amazon::DynamoDB::NaHTTP::VERSION = '0.19';
+$Amazon::DynamoDB::NaHTTP::VERSION = '0.20';
 use strict;
 use warnings;
 
@@ -51,10 +51,12 @@ sub ua {
 	my $self = shift;
 	unless($self->{ua}) {
 		my $ua = Net::Async::HTTP->new(
-			max_connections_per_host => 0,
-			user_agent               => 'PerlAmazonDynamoDB/0.002',
-			pipeline                 => 0,
-			fail_on_error            => 1,
+                    max_connections_per_host => $self->{max_connections_per_host} // 0,
+                    user_agent               => $self->{user_agent} // 'PerlAmazonDynamoDB/0.002',
+                    pipeline                 => $self->{pipeline} // 0,
+                    timeout                  => $self->{timeout} // 90,
+                    max_in_flight            => $self->{max_in_flight} // 4,
+                    fail_on_error            => 1,
 		);
 		$self->{loop}->add($ua);
 		$self->{ua} = $ua;
@@ -97,7 +99,7 @@ Amazon::DynamoDB::NaHTTP
 
 =head1 VERSION
 
-version 0.19
+version 0.20
 
 =head1 DESCRIPTION
 

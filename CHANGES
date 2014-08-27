@@ -1,10 +1,16 @@
 ==================================================
-Changes from 2013-07-05 00:00:00 +0000 to present.
+Changes from 2013-08-27 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.19 at 2014-07-05 05:02:15 +0000
+version 0.20 at 2014-08-27 15:25:55 +0000
 -----------------------------------------
+
+  Change: 75bcbbeea3f769a3b21e38a03b3cd042aec3a1a3
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-08-27 11:25:20 +0000
+
+    Allow some Net::Async::HTTP options to be respected. 
 
   Change: a50110545ab923039c3279b78b50209fff51fa21
   Author: Rusty Conover <rusty@luckydinosaur.com>

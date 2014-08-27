@@ -54,4 +54,4 @@ requires:
 resources:
   bugtracker: https://github.com/rustyconover/Amazon-DynamoDB/issues
   repository: git://github.com/rustyconover/Amazon-DynamoDB.git
-version: '0.19'
+version: '0.20'
