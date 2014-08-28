@@ -13,9 +13,9 @@ build_requires:
   Test::Most: '0'
   lib: '0'
 configure_requires:
-  ExtUtils::MakeMaker: '6.30'
+  ExtUtils::MakeMaker: '0'
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 5.019, CPAN::Meta::Converter version 2.141520'
+generated_by: 'Dist::Zilla version 5.020, CPAN::Meta::Converter version 2.142060'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -54,4 +54,4 @@ requires:
 resources:
   bugtracker: https://github.com/rustyconover/Amazon-DynamoDB/issues
   repository: git://github.com/rustyconover/Amazon-DynamoDB.git
-version: '0.20'
+version: '0.21'

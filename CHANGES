@@ -1,10 +1,18 @@
 ==================================================
-Changes from 2013-08-27 00:00:00 +0000 to present.
+Changes from 2013-08-28 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.20 at 2014-08-27 15:25:55 +0000
+version 0.21 at 2014-08-28 16:18:08 +0000
 -----------------------------------------
+
+  Change: 78a7012b64192f8083faa6634898a992309f4853
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-08-28 12:17:43 +0000
+
+    Fix a typo in a coercion.
+
+    Release 0.21 
 
   Change: 75bcbbeea3f769a3b21e38a03b3cd042aec3a1a3
   Author: Rusty Conover <rusty@luckydinosaur.com>

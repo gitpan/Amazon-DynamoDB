@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::Types;
-$Amazon::DynamoDB::Types::VERSION = '0.20';
+$Amazon::DynamoDB::Types::VERSION = '0.21';
 use strict;
 use warnings;
 use Type::Library
@@ -36,7 +36,6 @@ use Type::Library
               
 use Type::Utils -all;
 use Types::Standard -types;
-
 
 
 declare AttributeNameType, as Str, where { length($_) >= 1 && length($_) <= 255 };
@@ -130,7 +129,7 @@ coerce ExpectedType, from HashRef, via { ExpectedType->new($_) };
 
 declare AttributeUpdatesType, as Map[AttributeNameType, Dict[Action => StrMatch[qr/^(PUT|DELETE|ADD)$/],
                                                              Value => Optional[AttributeValueType]]];
-coerce AttributeUpdatesType, from HashRef, via { AttributeUpdatesType->new($_); }
+coerce AttributeUpdatesType, from HashRef, via { AttributeUpdatesType->new($_); };
 
 declare ItemType, as Map[AttributeNameType, AttributeValueType];
 declare KeyType, as Map[AttributeNameType, AttributeValueType], where { scalar(keys %$_) > 0 && scalar(keys %$_) < 3 };
@@ -174,7 +173,7 @@ Amazon::DynamoDB::Types
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 AUTHORS
 
