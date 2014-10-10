@@ -1,10 +1,23 @@
 ==================================================
-Changes from 2013-08-28 00:00:00 +0000 to present.
+Changes from 2013-10-10 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.21 at 2014-08-28 16:18:08 +0000
+version 0.22 at 2014-10-10 22:00:48 +0000
 -----------------------------------------
+
+  Change: 358f942b22afe717bd963eda2d8ba14fd362ad60
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-10-10 18:00:40 +0000
+
+    Release 0.22 
+
+  Change: f1dc853b73a54fceea75aa6fbe914263bc8a356c
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-10-10 17:59:40 +0000
+
+    Decode binary and binary set values completely, don't leave them as
+    references. 
 
   Change: 78a7012b64192f8083faa6634898a992309f4853
   Author: Rusty Conover <rusty@luckydinosaur.com>

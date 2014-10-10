@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.21';
+$Amazon::DynamoDB::20120810::VERSION = '0.22';
 use strict;
 use warnings;
 
@@ -660,9 +660,9 @@ fun _decode_type_and_value(Str $type, Any $value) {
     } elsif ($type eq 'N') {
         return  0+$value;
     } elsif ($type eq 'B') {
-        return \MIME::Base64::decode_base64($value);
+        return MIME::Base64::decode_base64($value);
     } elsif ($type eq 'BS') {
-        return [map { \MIME::Base64::decode_base64($_) } @$value];
+        return [map { MIME::Base64::decode_base64($_) } @$value];
     } elsif ($type eq 'NS') {
         return [map { 0+$_} @$value];
     } else {
@@ -962,7 +962,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 DESCRIPTION
 
