@@ -49,9 +49,10 @@ requires:
   URI: '0'
   URI::Escape: '0'
   URI::QueryParam: '0'
+  VM::EC2::Security::CredentialCache: '0'
   strict: '0'
   warnings: '0'
 resources:
   bugtracker: https://github.com/rustyconover/Amazon-DynamoDB/issues
   repository: git://github.com/rustyconover/Amazon-DynamoDB.git
-version: '0.22'
+version: '0.24'

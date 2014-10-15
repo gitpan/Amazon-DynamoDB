@@ -47,6 +47,7 @@ my %WriteMakefileArgs = (
     "URI" => 0,
     "URI::Escape" => 0,
     "URI::QueryParam" => 0,
+    "VM::EC2::Security::CredentialCache" => 0,
     "strict" => 0,
     "warnings" => 0
   },
@@ -60,7 +61,7 @@ my %WriteMakefileArgs = (
     "Test::Most" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.22",
+  "VERSION" => "0.24",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -102,6 +103,7 @@ my %FallbackPrereqs = (
   "URI" => 0,
   "URI::Escape" => 0,
   "URI::QueryParam" => 0,
+  "VM::EC2::Security::CredentialCache" => 0,
   "lib" => 0,
   "strict" => 0,
   "warnings" => 0

@@ -6,8 +6,8 @@ META.yml
 Makefile.PL
 README
 dist.ini
+iam-test.pl
 lib/Amazon/DynamoDB.pm
-lib/Amazon/DynamoDB/#20120810.pm#
 lib/Amazon/DynamoDB/#SignatureV4.pm#
 lib/Amazon/DynamoDB/20120810.pm
 lib/Amazon/DynamoDB/LWP.pm

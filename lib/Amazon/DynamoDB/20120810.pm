@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.22';
+$Amazon::DynamoDB::20120810::VERSION = '0.24';
 use strict;
 use warnings;
 
@@ -17,6 +17,7 @@ use Kavorka;
 use Amazon::DynamoDB::SignatureV4;
 use Amazon::DynamoDB::Types;
 use Type::Registry;
+use VM::EC2::Security::CredentialCache;
    
 BEGIN {
     my $reg = "Type::Registry"->for_me; 
@@ -541,6 +542,14 @@ method make_request(Str :$target,
     $payload = $json->utf8->encode($payload);
     $req->content($payload);
     $req->header( 'Content-Length' => length($payload));
+    
+    if ($self->{use_iam_role}) {
+        my $creds = VM::EC2::Security::CredentialCache->get();
+        defined($creds) || die("Unable to retrieve IAM role credentials");
+        $self->{access_key} = $creds->accessKeyId;
+        $self->{secret_key} = $creds->secretAccessKey;
+    }
+
     my $amz = Amazon::DynamoDB::SignatureV4->new(
         version    => 4,
         algorithm  => $self->algorithm,
@@ -962,7 +971,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.22
+version 0.24
 
 =head1 DESCRIPTION
 
