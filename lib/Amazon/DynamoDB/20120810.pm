@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.24';
+$Amazon::DynamoDB::20120810::VERSION = '0.25';
 use strict;
 use warnings;
 
@@ -548,13 +548,14 @@ method make_request(Str :$target,
         defined($creds) || die("Unable to retrieve IAM role credentials");
         $self->{access_key} = $creds->accessKeyId;
         $self->{secret_key} = $creds->secretAccessKey;
+        $req->header('x-amz-security-token' => $creds->sessionToken);
     }
 
     my $amz = Amazon::DynamoDB::SignatureV4->new(
         version    => 4,
         algorithm  => $self->algorithm,
-        access_key => $self->access_key,
         scope      => $date . "/" . $self->scope,
+        access_key => $self->access_key,
         secret_key => $self->secret_key,
     );
     $amz->from_http_request($req);
@@ -971,7 +972,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.24
+version 0.25
 
 =head1 DESCRIPTION
 

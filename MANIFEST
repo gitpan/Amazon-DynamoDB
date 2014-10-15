@@ -8,14 +8,12 @@ README
 dist.ini
 iam-test.pl
 lib/Amazon/DynamoDB.pm
-lib/Amazon/DynamoDB/#SignatureV4.pm#
 lib/Amazon/DynamoDB/20120810.pm
 lib/Amazon/DynamoDB/LWP.pm
 lib/Amazon/DynamoDB/MojoUA.pm
 lib/Amazon/DynamoDB/NaHTTP.pm
 lib/Amazon/DynamoDB/SignatureV4.pm
 lib/Amazon/DynamoDB/Types.pm
-lib/Amazon/DynamoDB/Types.pm~
 t/#30-nahttp.t#
 t/00use.t
 t/01-tables-simple.t

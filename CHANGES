@@ -3,7 +3,18 @@ Changes from 2013-10-15 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.24 at 2014-10-15 01:28:26 +0000
+version 0.25 at 2014-10-15 01:55:44 +0000
+-----------------------------------------
+
+  Change: ca2bc6a4898c067e584da931660f05ac8809ddba
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-10-14 21:55:15 +0000
+
+    Include the needed security token in the authorization signature when
+    using IAM roles. 
+
+-----------------------------------------
+version 0.24 at 2014-10-15 00:55:58 +0000
 -----------------------------------------
 
   Change: 0bc85b03ad06c7a28f9bf0a86c09fd122751b10a
