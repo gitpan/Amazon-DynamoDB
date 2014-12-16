@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.27';
+$Amazon::DynamoDB::20120810::VERSION = '0.28';
 use strict;
 use warnings;
 
@@ -189,9 +189,11 @@ method each_table(CodeRef $code,
 }
 
 
-method put_item (ItemType :$Item!,
+method put_item (ConditionalOperatorType :$ConditionalOperator,
+                 Str :$ConditionExpression,
+                 ItemType :$Item!,
                  ExpectedType :$Expected,
-                 ConditionalOperatorType :$ConditionalOperator,
+                 ExpressionAttributeValuesType :$ExpressionAttributeValues,
                  ReturnConsumedCapacityType :$ReturnConsumedCapacity,
                  ReturnItemCollectionMetricsType :$ReturnItemCollectionMetrics,
                  ReturnValuesType :$ReturnValues,
@@ -201,6 +203,8 @@ method put_item (ItemType :$Item!,
         payload => _make_payload({
             'ConditionalOperator' => $ConditionalOperator,
             'Expected' => $Expected,
+            'ConditionExpression' => $ConditionExpression,
+            'ExpressionAttributeValues' => $ExpressionAttributeValues,
             'Item' => $Item,
             'ReturnConsumedCapacity' => $ReturnConsumedCapacity,
             'ReturnItemCollectionMetrics' => $ReturnItemCollectionMetrics,
@@ -826,10 +830,21 @@ my $parameter_type_definitions = {
     # should be a boolean
     ConsistentRead => {},
     ConditionalOperator => {},
+    ConditionExpression => {},
     ExclusiveStartKey => {
         encode => $encode_key,
     },
     ExclusiveStartTableName => {},    
+    ExpressionAttributeValues => {
+        encode => sub {
+            my $source = shift;
+            my $r;
+            foreach my $key (grep { defined($source->{$_}) } keys %$source) {
+                $r->{$key} = { _encode_type_and_value($source->{$key}) };
+            }
+            return $r;
+        }
+    },
     Expected => {
         encode => sub {
             my $source = shift;
@@ -967,7 +982,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.27
+version 0.28
 
 =head1 DESCRIPTION
 

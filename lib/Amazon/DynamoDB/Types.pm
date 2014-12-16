@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::Types;
-$Amazon::DynamoDB::Types::VERSION = '0.27';
+$Amazon::DynamoDB::Types::VERSION = '0.28';
 use strict;
 use warnings;
 use Type::Library
@@ -32,6 +32,7 @@ use Type::Library
                       QueryFilterType
                       ScanFilterType
                       ExpectedValueType
+                      ExpressionAttributeValuesType
                       AttributesToGetType);
               
 use Type::Utils -all;
@@ -66,6 +67,7 @@ coerce ReturnItemCollectionMetricsType, from Str, via { ReturnItemCollectionMetr
 
 declare ReturnConsumedCapacityType, as StrMatch[qr/^(INDEXES|TOTAL|NONE)$/];
 coerce ReturnConsumedCapacityType, from Str, via { ReturnConsumedCapacityType->new($_); };
+
 
 declare ConditionalOperatorType, as StrMatch[qr/^(AND|OR)$/];    
 coerce ConditionalOperatorType, from Str, via { ConditionalOperatorType->new($_); };
@@ -169,6 +171,9 @@ declare ScanFilterType, as Map[AttributeNameType, Dict[AttributeValueList => Opt
                                                        ComparisonOperator => ComparisonOperatorType
                                                      ]];
 
+declare ExpressionAttributeValuesType, as Map[StrMatch[qr/^:[a-zA-Z][a-z0-9A-Z]*$/], AttributeValueType];
+coerce ExpressionAttributeValuesType, from HashRef, via { ExpressionAttributeValuesType->new($_) };
+
 
 1;
 
@@ -184,7 +189,7 @@ Amazon::DynamoDB::Types
 
 =head1 VERSION
 
-version 0.27
+version 0.28
 
 =head1 AUTHORS
 
