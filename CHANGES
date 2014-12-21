@@ -1,9 +1,20 @@
 ==================================================
-Changes from 2013-12-16 00:00:00 +0000 to present.
+Changes from 2013-12-21 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.28 at 2014-12-16 02:03:43 +0000
+version 0.29 at 2014-12-21 22:06:45 +0000
+-----------------------------------------
+
+  Change: 6aa726f87b78143f9d70cb428d3f39c7bf43eb9a
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2014-12-21 16:54:19 +0000
+
+    Add support for FilterExpression, ExpressionAttributeNames and
+    ExpressionAttributeValues to query and scan. 
+
+-----------------------------------------
+version 0.28 at 2014-12-16 02:02:54 +0000
 -----------------------------------------
 
   Change: 97c336c2cf2917e73eda35dc899faa3f7ee38f3a
