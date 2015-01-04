@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::Types;
-$Amazon::DynamoDB::Types::VERSION = '0.29';
+$Amazon::DynamoDB::Types::VERSION = '0.30';
 use strict;
 use warnings;
 use Type::Library
@@ -193,7 +193,7 @@ Amazon::DynamoDB::Types
 
 =head1 VERSION
 
-version 0.29
+version 0.30
 
 =head1 AUTHORS
 

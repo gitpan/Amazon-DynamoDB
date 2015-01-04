@@ -1,9 +1,31 @@
 ==================================================
-Changes from 2013-12-21 00:00:00 +0000 to present.
+Changes from 2014-01-04 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.29 at 2014-12-21 22:06:45 +0000
+version 0.30 at 2015-01-04 15:08:23 +0000
+-----------------------------------------
+
+  Change: e53e7938868f4571188eff688bcd96d53a32b587
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2015-01-03 23:46:30 +0000
+
+    Fix bug in limit calculation 
+
+  Change: 49f294e83fa2011d817f446e537edfea9f7e30de
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2015-01-03 23:30:53 +0000
+
+    Fixup some tests regarding Limit and ResultLimit 
+
+  Change: 940faef664fcb60966482ca43ab72f6fbc3240ff
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2015-01-03 23:26:54 +0000
+
+    Fix handling of limit for query and scan. Remove ResultLimit option. 
+
+-----------------------------------------
+version 0.29 at 2014-12-21 21:54:19 +0000
 -----------------------------------------
 
   Change: 6aa726f87b78143f9d70cb428d3f39c7bf43eb9a

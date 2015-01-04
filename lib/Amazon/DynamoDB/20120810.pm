@@ -1,5 +1,5 @@
 package Amazon::DynamoDB::20120810;
-$Amazon::DynamoDB::20120810::VERSION = '0.29';
+$Amazon::DynamoDB::20120810::VERSION = '0.30';
 use strict;
 use warnings;
 
@@ -464,7 +464,6 @@ method query (CodeRef $code,
               StringBooleanType :$ScanIndexForward,
               SelectType :$Select,
               TableNameType :$TableName!,
-              Int :$ResultLimit where  { $_ > 0 },
               Str :$FilterExpression,
               ExpressionAttributeValuesType :$ExpressionAttributeValues,
               ExpressionAttributeNamesType :$ExpressionAttributeNames,
@@ -479,7 +478,6 @@ method query (CodeRef $code,
                                 'ExpressionAttributeValues' => $ExpressionAttributeValues,
                                 'FilterExpression' => $FilterExpression,
                                 'IndexName' => $IndexName,
-                                'Limit' => $Limit,
                                 'QueryFilter' => $QueryFilter,
                                 'ReturnConsumedCapacity' => $ReturnConsumedCapacity,
                                 'ScanIndexForward' => $ScanIndexForward,
@@ -496,7 +494,7 @@ method query (CodeRef $code,
         };
     }
 
-    $self->_scan_or_query_process('Query', $payload, $code, { ResultLimit => $ResultLimit});
+    $self->_scan_or_query_process('Query', $payload, $code, { ResultLimit => $Limit});
 }
 
 
@@ -508,7 +506,6 @@ method scan (CodeRef $code,
              KeyType :$ExclusiveStartKey,
              Int :$Limit where { $_ >= 0},
              ReturnConsumedCapacityType :$ReturnConsumedCapacity,
-             Int :$ResultLimit where  { $_ > 0 },
              ScanFilterType :$ScanFilter,
              Int :$Segment where { $_ >= 0 },
              SelectType :$Select,
@@ -524,7 +521,6 @@ method scan (CodeRef $code,
                                 'ExpressionAttributeValues' => $ExpressionAttributeValues,
                                 'ExpressionAttributeNames' => $ExpressionAttributeNames,
                                 'FilterExpression' => $FilterExpression,
-                                'Limit' => $Limit,
                                 'ReturnConsumedCapacity' => $ReturnConsumedCapacity,
                                 'ScanFilter' => $ScanFilter,
                                 'Segment' => $Segment,
@@ -533,7 +529,7 @@ method scan (CodeRef $code,
                                 'TotalSegments' => $TotalSegments
                             });
 
-    $self->_scan_or_query_process('Scan', $payload, $code, { ResultLimit => $ResultLimit});
+    $self->_scan_or_query_process('Scan', $payload, $code, { ResultLimit => $Limit});
 }
 
 
@@ -588,6 +584,13 @@ method _scan_or_query_process (Str $target,
     my $records_seen = 0;
     my $repeat = try_repeat {
         
+        # Since we're may be making more than one request in this repeat loop
+        # decrease our limit of results to scan in each call by the number 
+        # of records remaining that the overall request wanted ot pull.
+        if (defined($args->{ResultLimit})) {
+            $payload->{Limit} = $args->{ResultLimit} - $records_seen;
+        }
+
         my $req = $self->make_request(
             target => $target,
             payload => $payload,
@@ -601,17 +604,26 @@ method _scan_or_query_process (Str $target,
                 
                 for my $entry (@{$data->{Items}}) {
                     $code->(_decode_item_attributes($entry));
-                    $records_seen += 1;
-                    if (defined($args->{ResultLimit}) && $records_seen >= $args->{ResultLimit}) {
-                        $finished = 1;
-                        last;
+                }
+
+                $records_seen += scalar(@{$data->{Items}});
+                if ((defined($args->{ResultLimit}) && $records_seen >= $args->{ResultLimit})) {
+                    $finished = 1;
+                } 
+
+                if (!defined($payload->{LastEvaluatedKey})) {
+                    $finished = 1;
+                } else {
+                    if (!$finished) {
+                        $payload->{ExclusiveStartKey} = $data->{LastEvaluatedKey};                    
                     }
                 }
-                $payload->{ExclusiveStartKey} = $data->{LastEvaluatedKey};
                 
-                if (!defined($payload->{ExclusiveStartKey})) {
-                    $finished = 1;
+                if (defined($data->{LastEvaluatedKey}) && $finished) {
+                    $data->{LastEvaluatedKey} = _decode_item_attributes($data->{LastEvaluatedKey});
                 }
+
+
                 return $data;
             })
             ->on_fail(sub {
@@ -996,7 +1008,7 @@ Amazon::DynamoDB::20120810
 
 =head1 VERSION
 
-version 0.29
+version 0.30
 
 =head1 DESCRIPTION
 
@@ -1279,10 +1291,6 @@ Amazon Documentation:
 L<http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html>
 
 Additional parameters:
-
-=over 4
-
-=item * ResultLimit - maximum number of items to return
 
 =back
 
