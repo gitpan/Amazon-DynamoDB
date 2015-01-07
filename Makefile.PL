@@ -26,7 +26,7 @@ my %WriteMakefileArgs = (
     "Future::Utils" => 0,
     "HTTP::Request" => 0,
     "IO::Async::Timer::Countdown" => 0,
-    "JSON::XS" => 0,
+    "JSON::MaybeXS" => 0,
     "Kavorka" => 0,
     "LWP::UserAgent" => 0,
     "List::MoreUtils" => 0,
@@ -54,7 +54,7 @@ my %WriteMakefileArgs = (
     "Test::Most" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.30",
+  "VERSION" => "0.31",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -71,7 +71,7 @@ my %FallbackPrereqs = (
   "IO::Async::Loop" => 0,
   "IO::Async::SSL" => 0,
   "IO::Async::Timer::Countdown" => 0,
-  "JSON::XS" => 0,
+  "JSON::MaybeXS" => 0,
   "Kavorka" => 0,
   "LWP::UserAgent" => 0,
   "List::MoreUtils" => 0,

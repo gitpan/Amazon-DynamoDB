@@ -1,9 +1,46 @@
 ==================================================
-Changes from 2014-01-04 00:00:00 +0000 to present.
+Changes from 2014-01-07 00:00:00 +0000 to present.
 ==================================================
 
 -----------------------------------------
-version 0.30 at 2015-01-04 15:08:23 +0000
+version 0.31 at 2015-01-07 00:49:11 +0000
+-----------------------------------------
+
+  Change: 3637a9693974a647915f3faab0e7780c8b7daa2e
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2015-01-06 19:48:40 +0000
+
+    Fix a bug in the patch to use JSON::MaybeXS found by tests. 
+
+  Change: 06e16a2a3490d11901a79855cd8a0d8dbf3a7591
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2015-01-06 19:39:20 +0000
+
+    Merge branch 'master' of github.com:rustyconover/Amazon-DynamoDB 
+
+  Change: 9f5db9e072f6114470178929649a8f52e24c5f53
+  Author: Rusty Conover <rusty@luckydinosaur.com>
+  Date : 2015-01-06 19:24:07 +0000
+
+    Correct LastEvaluatedKey logic 
+
+  Change: 15df92f386df4fe96e6318f3df512a96b6cd86fb
+  Author: Rusty Conover <rustyconover@users.noreply.github.com>
+  Date : 2015-01-06 19:23:39 +0000
+
+    Merge pull request #5 from karenetheridge/topic/json_maybexs
+
+    Swap out JSON::XS for JSON::MaybeXS 
+
+  Change: 6b1dbca1170b86156c7177682b6874a03997df84
+  Author: Karen Etheridge <ether@cpan.org>
+  Date : 2015-01-06 16:10:48 +0000
+
+    Swap out JSON::XS for JSON::MaybeXS, to allow the user to choose
+    between backends 
+
+-----------------------------------------
+version 0.30 at 2015-01-04 04:46:30 +0000
 -----------------------------------------
 
   Change: e53e7938868f4571188eff688bcd96d53a32b587
